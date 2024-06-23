@@ -6,7 +6,6 @@ const port = 3000;
 
 app.use(bodyParser.json());
 
-// MongoDB connection
 mongoose.connect('mongodb://localhost/todo-app', { useNewUrlParser: true, useUnifiedTopology: true });
 
 const db = mongoose.connection;
@@ -15,7 +14,6 @@ db.once('open', () => {
     console.log('Connected to MongoDB');
 });
 
-// ToDo model
 const todoSchema = new mongoose.Schema({
     title: String,
     completed: Boolean
@@ -25,10 +23,6 @@ const ToDo = mongoose.model('ToDo', todoSchema);
 
 app.get('/', (req, res) => {
     res.send('Hello World');
-});
-
-app.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}`);
 });
 
 app.post('/todos', async (req, res) => {
@@ -45,3 +39,39 @@ app.post('/todos', async (req, res) => {
     }
 });
 
+app.get('/todos', async (req, res) => {
+    try {
+        const todos = await ToDo.find();
+        res.status(200).send(todos);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
+app.put('/todos/:id', async (req, res) => {
+    try {
+        const todo = await ToDo.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (!todo) {
+            return res.status(404).send();
+        }
+        res.status(200).send(todo);
+    } catch (error) {
+        res.status(400).send(error);
+    }
+});
+
+app.delete('/todos/:id', async (req, res) => {
+    try {
+        const todo = await ToDo.findByIdAndDelete(req.params.id);
+        if (!todo) {
+            return res.status(404).send();
+        }
+        res.status(200).send(todo);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
+app.listen(port, () => {
+    console.log(`Server running on http://localhost:${port}`);
+});
