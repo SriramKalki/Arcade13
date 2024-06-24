@@ -13,16 +13,31 @@ body {
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
 }
 
 h1 {
     margin: 0 0 20px;
     text-align: center;
+    color: #333;
+}
+
+#auth-container {
+    margin-bottom: 20px;
+}
+
+.user-display {
+    margin: 10px 0;
+    font-size: 1.2em;
+    color: #5cb85c;
 }
 
 form {
     display: flex;
     justify-content: center;
+    margin-bottom: 20px;
 }
 
 form input {
@@ -30,6 +45,8 @@ form input {
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 3px;
+    width: 100%;
+    max-width: 300px;
 }
 
 form button {
@@ -51,6 +68,7 @@ ul {
     list-style: none;
     padding: 0;
     margin: 20px 0 0;
+    text-align: left;
 }
 
 ul li {
@@ -60,6 +78,7 @@ ul li {
     margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 ul li button {
@@ -73,4 +92,19 @@ ul li button {
 
 ul li button:hover {
     background-color: #c9302c;
+}
+
+.btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    background-color: #5bc0de;
+    color: white;
+    border-radius: 3px;
+    cursor: pointer;
+    margin: 5px 0;
+}
+
+.btn:hover {
+    background-color: #31b0d5;
 }

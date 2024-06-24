@@ -19,7 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
             userDisplay.textContent = `Hello, ${authorization.idToken.sub}`;
             loginButton.style.display = 'none';
             logoutButton.style.display = 'block';
-            form.style.display = 'block';
+            form.style.display = 'flex';
+            fetchToDos();
         } catch (error) {
             console.error('Login error:', error);
         }
@@ -31,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loginButton.style.display = 'block';
         logoutButton.style.display = 'none';
         form.style.display = 'none';
+        todoList.innerHTML = '';
     });
 
     form.addEventListener('submit', async (e) => {
@@ -81,6 +83,4 @@ document.addEventListener('DOMContentLoaded', () => {
         li.appendChild(deleteButton);
         todoList.appendChild(li);
     }
-
-    fetchToDos();
 });
