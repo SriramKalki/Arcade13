@@ -24,11 +24,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     async function fetchToDos() {
-
+        try {
+            const response = await fetch('/todos');
+            const todos = await response.json();
+            todos.forEach(todo => addToDoToList(todo));
+        } catch (error) {
+            console.error('Error:', error);
+        }
     }
 
     function addToDoToList(todo) {
+        const li = document.createElement('li');
+        li.textContent = todo.title;
 
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.addEventListener('click', async () => {
+            try {
+                await fetch(`/todos/${todo._id}`, { method: 'DELETE' });
+                li.remove();
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+
+        li.appendChild(deleteButton);
+        todoList.appendChild(li);
     }
 
     fetchToDos();

@@ -1,10 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const path = require('path');
 const app = express();
 const port = 3000;
 
 app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, '../public')));
 
 mongoose.connect('mongodb://localhost/todo-app', { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -22,7 +24,7 @@ const todoSchema = new mongoose.Schema({
 const ToDo = mongoose.model('ToDo', todoSchema);
 
 app.get('/', (req, res) => {
-    res.send('Hello World');
+    res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
 app.post('/todos', async (req, res) => {
