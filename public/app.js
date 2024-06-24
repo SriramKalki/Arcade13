@@ -2,6 +2,36 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('todo-form');
     const todoList = document.getElementById('todo-list');
     const todoTitle = document.getElementById('todo-title');
+    const loginButton = document.getElementById('login-button');
+    const logoutButton = document.getElementById('logout-button');
+    const userDisplay = document.getElementById('user-display');
+
+    const uauth = new window.UAuth({
+        clientID: "your-client-id",
+        redirectUri: "http://localhost:3000/callback",
+        scope: "openid wallet email profile"
+    });
+
+    loginButton.addEventListener('click', async () => {
+        try {
+            const authorization = await uauth.loginWithPopup();
+            console.log(authorization);
+            userDisplay.textContent = `Hello, ${authorization.idToken.sub}`;
+            loginButton.style.display = 'none';
+            logoutButton.style.display = 'block';
+            form.style.display = 'block';
+        } catch (error) {
+            console.error('Login error:', error);
+        }
+    });
+
+    logoutButton.addEventListener('click', async () => {
+        await uauth.logout();
+        userDisplay.textContent = '';
+        loginButton.style.display = 'block';
+        logoutButton.style.display = 'none';
+        form.style.display = 'none';
+    });
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
